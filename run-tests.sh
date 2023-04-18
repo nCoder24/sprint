@@ -1,1 +1,1 @@
-node "test/arrays-test.js"
+node "test/sprint-compiler-test.js"
