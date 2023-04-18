@@ -29,10 +29,10 @@ const testCompiler = function() {
     actual: compile([0, 45, 100])[100]
   });
 
-  it("should return undefined for any number not 0 as instruction", {
+  it("should compile multiple instructions", {
     fnName: fnName,
-    expected: undefined,
-    actual: compile([1, 45, 100])[100]
+    expected: 59,
+    actual: compile([0, 45, 100, 0, 59, 100])[100]
   });
 }
 

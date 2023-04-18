@@ -1,22 +1,32 @@
-const getInstruction = function(instructionCode) {
-  const instructions = {
-    0: function(cells, programCounter) {
-      cells[cells[programCounter + 2]] = cells[programCounter + 1];
-      return programCounter + 3;
-    }
+const throwUnknownInstructionErr = function(instruction) {
+  console.error("unknown instruction: ", instruction);
+  process.exit(1);
+}
+
+const assign = function(cells, programCounter) {
+  cells[cells[programCounter + 2]] = cells[programCounter + 1];
+  return programCounter + 3;
+}
+
+const getOperation = function(instruction) {
+  const operations = {
+    0: assign
   }
 
-  return instructions[instructionCode];
+  return operations[instruction] || throwUnknownInstructionErr(instruction);
 }
 
 const execute = function(cells, programCounter) {
-  const operation = getInstruction(cells[programCounter])
-  if (operation) return operation(cells, programCounter);
+  return getOperation(cells[programCounter])(cells, programCounter);
 }
 
 const compile = function(program) {
   const cells = program.concat();
-  execute(cells, 0);
+  let programCounter = 0;
+
+  while(programCounter < program.length && programCounter !== null) {
+    programCounter = execute(cells, programCounter);
+  }
 
   return cells;
 }
