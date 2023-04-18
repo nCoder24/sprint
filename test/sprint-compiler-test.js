@@ -34,6 +34,26 @@ const testCompiler = function() {
     expected: 59,
     actual: compile([0, 45, 100, 0, 59, 100])[100]
   });
+
+  it("should add values of two cells and store to a cell", {
+    fnName: fnName,
+    expected: 5,
+    actual: compile([
+      0, 2, 100, 
+      0, 3, 101, 
+      1, 100, 101, 102
+    ])[102]
+  });
+
+  it("should subtract values of two cells and store to a cell", {
+    fnName: fnName,
+    expected: 2,
+    actual: compile([
+      0, 5, 100, 
+      0, 3, 101, 
+      2, 100, 101, 102
+    ])[102]
+  });
 }
 
 testCompiler();
