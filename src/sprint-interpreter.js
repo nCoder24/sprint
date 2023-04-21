@@ -5,12 +5,12 @@ const error = {
   emptyCellReference: function(cellNo) {
     return "empty cell reference: " + cellNo;
   }
-}
+};
 
 const throwErr = function(error) {
   console.error(error);
   process.exit(1);
-}
+};
 
 const operation = {
   assign: function(cells, programCounter) {
@@ -31,6 +31,15 @@ const operation = {
     cells[cells[programCounter + 3]] = result;
 
     return programCounter + 4;
+  },
+
+  jump: function(cells, programCounter) {
+    return cells[programCounter + 1];
+  },
+
+  jumpEqual: function(cells, programCounter) {
+    if(cells[programCounter + 1] === cells[programCounter]) return celss[programCounter + 1];
+    else return programCounter + 4;
   }
 }
 
@@ -38,7 +47,9 @@ const getOperation = function(instruction) {
   const operations = {
     0: operation.assign,
     1: operation.add,
-    2: operation.subtract
+    2: operation.subtract,
+    3: operation.jump,
+    4: operation.jumpEqual
   }
 
   return operations[instruction] || throwErr(error.unknownInstruction(instruction));
@@ -52,7 +63,7 @@ const compile = function(program) {
   const cells = program.concat();
   let programCounter = 0;
 
-  while(programCounter < program.length && programCounter !== null) {
+  while(programCounter !== null && cells[programCounter] !== undefined) {
     programCounter = execute(cells, programCounter);
   }
 

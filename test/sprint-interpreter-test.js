@@ -1,5 +1,5 @@
 const test = require("../lib/test.js");
-const sprint = require("../src/sprint-compiler.js");
+const sprint = require("../src/sprint-interpreter.js");
 
 const assertEqual = test.assertEqual;
 const assertEqualArray = test.assertEqualArray;
@@ -52,6 +52,35 @@ const testCompiler = function() {
       0, 5, 100, 
       0, 3, 101, 
       2, 100, 101, 102
+    ])[102]
+  });
+
+  it("should subtract values of two cells and store to a cell", {
+    fnName: fnName,
+    expected: 2,
+    actual: compile([
+      0, 5, 100,
+      0, 3, 101,
+      2, 100, 101, 102
+    ])[102]
+  });
+
+  it("should halt the program", {
+    fnName: fnName,
+    expected: 2,
+    actual: compile([
+      9
+    ])[102]
+  });
+
+  it("should jump to specific cell", {
+    fnName: fnName,
+    expected: 2,
+    actual: compile([
+      3, 6,
+      0, 5, 100,
+      0, 3, 101,
+      9
     ])[102]
   });
 }
