@@ -3,7 +3,7 @@ const {deepEqual} = require("assert");
 const {describe, it} = require("node:test");  
 
 describe("interpreter", function() {
-  it("should assign value to a chell", function() {
+  it("should assign value to a cell", function() {
     deepEqual(
       [0, 5, 4, 9, 5],
       run([0, 5, 4, 9]).slice(0, 5)
