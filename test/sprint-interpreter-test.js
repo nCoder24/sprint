@@ -9,15 +9,38 @@ describe("interpreter", function() {
       run([0, 5, 4, 9]).slice(0, 5)
     );
   });
-});
 
-/*
-  it("should compile multiple instructions", {
-    expected: 59,
-    actual: compile([0, 45, 100, 0, 59, 100])[100]
+  it("should run multiple instructions", function() {
+    deepEqual(
+      [0, 5, 7, 0, 2, 8, 9, 5, 2],
+      run([0, 5, 7, 0, 2, 8, 9]).slice(0, 9)
+    );
   });
 
-  it("should add values of two cells and store to a cell", {
+  it("should add values of two cells and store to a cell", function() {
+    deepEqual(
+      [1, 0, 0, 5, 9, 2],
+      run([1, 0, 0, 5, 9]).slice(0, 6)
+    );
+  });
+
+  it("should subtract values of two cells and store to a cell", function() {
+    deepEqual(
+      [2, 0, 0, 5, 9, 0],
+      run([2, 0, 0, 5, 9]).slice(0, 6)
+    );
+  });
+
+  it("should jumpt to specific memory location", function() {
+    deepEqual(
+      [3, 5, 0, 0, 0, 9],
+      run([3, 5, 0, 0, 0, 9]).slice(0, 6)
+    );
+  });
+});
+
+
+/*
     fnName: fnName,
     expected: 5,
     actual: compile([

@@ -20,13 +20,45 @@ const halt = function(state) {
   }
 }
 
-add = function(state) { }
+add = function(state) {
+  const operand1Loc = state.memory[state.ip + 1];
+  const operand2Loc = state.memory[state.ip + 2];
+  const resultLoc = state.memory[state.ip + 3];
+  const [...memory] = state.memory;
 
-subtract = function(state) { }
+  memory[resultLoc] = memory[operand1Loc] + memory[operand2Loc];
 
-jump = function(state) { }
+  return {
+    memory,
+    ip: state.ip + 4,
+    isHalted: false
+  }
+}
 
-jumpEqual = function(state) { }
+subtract = function(state) {
+  const operand1Loc = state.memory[state.ip + 1];
+  const operand2Loc = state.memory[state.ip + 2];
+  const resultLoc = state.memory[state.ip + 3];
+  const [...memory] = state.memory;
+
+  memory[resultLoc] = memory[operand1Loc] - memory[operand2Loc];
+
+  return {
+    memory,
+    ip: state.ip + 4,
+    isHalted: false
+  }
+}
+
+jump = function(state) {
+  const jumpLocation = state.memory[state.ip + 1];
+
+  return {
+    memory: state.memory,
+    ip: jumpLocation,
+    isHalted: true
+  }
+}
 
 exports.assign = assign;
 exports.add = add;
