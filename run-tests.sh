@@ -1,1 +1,1 @@
-node "sprint-interpreter-test.js"
+node "test/sprint-interpreter-test.js"

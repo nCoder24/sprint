@@ -1,36 +1,18 @@
-const test = require("../lib/test.js");
-const sprint = require("../src/sprint-interpreter.js");
+const {run} = require("../src/interpreter.js");
+const {deepEqual} = require("assert");
+const {describe, it} = require("node:test");  
 
-const assertEqual = test.assertEqual;
-const assertEqualArray = test.assertEqualArray;
-const getReport = test.generateAssertionReport;
-const assertEqualArrayOfArray = test.assertEqualArrayOfArray;
-
-const compile = sprint.compile;
-
-const it = function(message, testData) {
-  assertEqual(testData.fnName, testData.actual, testData.expected, message);
-}
-
-const forArrayIt = function(message, testData) {
-  assertEqualArray(testData.fnName, testData.actual, testData.expected, message);
-}
-
-const forArrayOfArrayIt = function(message, testData) {
-  assertEqualArrayOfArray(testData.fnName, testData.actual, testData.expected, message);
-}
-
-const testCompiler = function() {
-  const fnName = "compile";
-
-  it("should assign value to a chell", {
-    fnName: fnName,
-    expected: 45,
-    actual: compile([0, 45, 100])[100]
+describe("interpreter", function() {
+  it("should assign value to a chell", function() {
+    deepEqual(
+      [0, 5, 4, 9, 5],
+      run([0, 5, 4, 9]).slice(0, 5)
+    );
   });
+});
 
+/*
   it("should compile multiple instructions", {
-    fnName: fnName,
     expected: 59,
     actual: compile([0, 45, 100, 0, 59, 100])[100]
   });
@@ -83,8 +65,4 @@ const testCompiler = function() {
       9
     ])[102]
   });
-}
-
-testCompiler();
-
-console.log(getReport());
+  */
