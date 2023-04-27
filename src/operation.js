@@ -1,60 +1,60 @@
-assign = function(state) {
-  const memoryLocation = state.memory[state.ip + 2];
-  const value = state.memory[state.ip + 1];
-  const [...memory] = state.memory;
+const assign = function({memory, ip, isHalted}) {
+  const memoryLocation = memory[ip + 2];
+  const value = memory[ip + 1];
 
+  memory = [...memory];
   memory[memoryLocation] = value;
 
   return {
     memory,
-    ip: state.ip + 3,
+    ip: ip + 3,
     isHalted: false
   }
 }
 
-const halt = function(state) {
+const halt = function({memory, ip, isHalted}) {
   return {
-    memory: state.memory,
-    ip: state.ip,
+    memory: memory,
+    ip: ip,
     isHalted: true
   }
 }
 
-add = function(state) {
-  const operand1Loc = state.memory[state.ip + 1];
-  const operand2Loc = state.memory[state.ip + 2];
-  const resultLoc = state.memory[state.ip + 3];
-  const [...memory] = state.memory;
+const add = function({memory, ip, isHalted}) {
+  const operand1Loc = memory[ip + 1];
+  const operand2Loc = memory[ip + 2];
+  const resultLoc = memory[ip + 3];
 
+  memory = [...memory];
   memory[resultLoc] = memory[operand1Loc] + memory[operand2Loc];
 
   return {
     memory,
-    ip: state.ip + 4,
-    isHalted: false
+    ip: ip + 4,
+    isHalted
   }
 }
 
-subtract = function(state) {
-  const operand1Loc = state.memory[state.ip + 1];
-  const operand2Loc = state.memory[state.ip + 2];
-  const resultLoc = state.memory[state.ip + 3];
-  const [...memory] = state.memory;
+const subtract = function({memory, ip, isHalted}) {
+  const operand1Loc = memory[ip + 1];
+  const operand2Loc = memory[ip + 2];
+  const resultLoc = memory[ip + 3];
 
+  memory = [...memory];
   memory[resultLoc] = memory[operand1Loc] - memory[operand2Loc];
 
   return {
     memory,
-    ip: state.ip + 4,
-    isHalted: false
+    ip: ip + 4,
+    isHalted
   }
 }
 
-jump = function(state) {
-  const jumpLocation = state.memory[state.ip + 1];
+const jump = function({memory, ip, isHalted}) {
+  const jumpLocation = memory[ip + 1];
 
   return {
-    memory: state.memory,
+    memory: memory,
     ip: jumpLocation,
     isHalted: true
   }
@@ -64,5 +64,4 @@ exports.assign = assign;
 exports.add = add;
 exports.subtract = subtract;
 exports.jump = jump;
-exports.jumpEqual;
 exports.halt = halt;
