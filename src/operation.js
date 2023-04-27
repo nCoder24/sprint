@@ -8,14 +8,14 @@ const assign = function({memory, ip, isHalted}) {
   return {
     memory,
     ip: ip + 3,
-    isHalted: false
+    isHalted
   }
 }
 
 const halt = function({memory, ip, isHalted}) {
   return {
-    memory: memory,
-    ip: ip,
+    memory,
+    ip,
     isHalted: true
   }
 }
@@ -54,9 +54,9 @@ const jump = function({memory, ip, isHalted}) {
   const jumpLocation = memory[ip + 1];
 
   return {
-    memory: memory,
+    memory,
     ip: jumpLocation,
-    isHalted: true
+    isHalted
   }
 }
 
