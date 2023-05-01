@@ -2,22 +2,18 @@ const operation = require("./operation.js");
 const {errors} = require("./errors.js");
 const {notStrictEqual} = require("assert");
 
-const repeat = function(value, times) {
+const generateCells = function(noOfCells, fill = null){
   const cells = [];
 
-  for(let count = 0; count < times; count++) {
-    cells.push(value);
+  for(let count = 0; count < noOfCells; count++) {
+    cells.push(fill);
   }
 
   return cells;
 }
 
-const allocateCells = function(noOfCells, initialValue = null){
-  return repeat(initialValue, noOfCells);
-}
-
-const allocateMemeory = function(program, totalSize = 200) {
-  return [...program, ...allocateCells(totalSize - program.length)]
+const extendMemory = function(existingMemory, totalSize = 50) {
+  return [...existingMemory, ...generateCells(totalSize - existingMemory.length)]
 }
 
 const operatorFor = function(instruction) {
@@ -26,7 +22,6 @@ const operatorFor = function(instruction) {
     1: operation.add,
     2: operation.subtract,
     3: operation.jump,
-    4: operation.jumpEqual,
     9: operation.halt,
   }
 
@@ -43,9 +38,9 @@ const execute = function(state) {
   return operator(state);
 }
 
-const run = function(program) {
+const run = function(memory) {
   let state = {
-    memory: allocateMemeory(program),
+    memory: extendMemory(memory),
     ip : 0,
     isHalted: false
   }
@@ -55,6 +50,16 @@ const run = function(program) {
   }
 
   return state.memory;
+}
+
+const runWith = function(state) {
+  if(state.isHalted) return state.memory;
+
+  return runWith(execute(state));
+}
+
+const run = function(memory) {
+  return runWith({meo});
 }
 
 exports.run = run;
